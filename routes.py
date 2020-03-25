@@ -12,13 +12,15 @@ app.add_url_rule(
 )
 app.add_url_rule("/admin/post/all", view_func=PostListView.as_view("post_list_view"))
 app.add_url_rule(
-    "/admin/post/id/view", view_func=PostDetailView.as_view("post_detail_view")
+    "/admin/post/<int:post_id>/view",
+    view_func=PostDetailView.as_view("post_detail_view"),
 )
 app.add_url_rule(
-    "/admin/post/id/edit", view_func=PostEditView.as_view("post_ddit_view")
+    "/admin/post/<int:post_id>/edit", view_func=PostEditView.as_view("post_edit_view")
 )
 app.add_url_rule(
-    "/admin/post/id/delete", view_func=PostDeleteView.as_view("post_delete_view")
+    "/admin/post/<int:post_id>/delete",
+    view_func=PostDeleteView.as_view("post_delete_view"),
 )
 app.add_url_rule("/post/all", view_func=UserPostListView.as_view("user_post_List_view"))
 app.add_url_rule(

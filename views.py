@@ -53,28 +53,48 @@ class PostListView(MethodView):
     """view post for admin"""
 
     def get(self):
-        return render_template("post_list_view.html")
+        posts = Post.query.all()
+        print(posts)
+        return render_template("post_list_view.html", posts=posts)
 
 
 class PostEditView(MethodView):
     """edit post for admin"""
 
-    def get(self):
-        return render_template("post_edit_view.html")
+    def get(self, post_id):
+        post = Post.query.filter_by(id=post_id).one()
+        form = CreatePostForm(post=post)
+        return render_template("post_edit_view.html", form=form)
+
+    def post(self):
+        form = CreatePostForm(data=request.form)
+        data = copy.deepcopy(form.data)
+        if form.validate():
+            data.pop("csrf_token")
+            post = Post(**data)
+            db.session.add(post)
+            db.session.commit()
+            return redirect("/admin/post/new")
 
 
 class PostDeleteView(MethodView):
     """delete post for admin"""
 
-    def get(self):
-        return render_template("post_delete_view.html")
+    def get(self, post_id):
+        post = Post.query.filter_by(id=post_id).one()
+        db.session.delete(post)
+        db.session.commit()
+
+        return redirect("/admin/post/all")
 
 
 class PostDetailView(MethodView):
     """delete post for admin"""
 
-    def get(self):
-        return render_template("post_detail_view.html")
+    def get(self, post_id):
+        post = Post.query.filter_by(id=post_id).one()
+
+        return render_template("post_detail_view.html", post=post)
 
 
 class UserPostListView(MethodView):
