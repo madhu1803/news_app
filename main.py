@@ -1,8 +1,7 @@
 """Start point for the app"""
 
 from app import app, db
-
-# from routes import *
+from routes import *
 from models import *
 
 if __name__ == "__main__":
