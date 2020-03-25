@@ -1,7 +1,12 @@
 """Define the views and view based operations here"""
 
 from flask.views import MethodView
-from flask import render_template
+from flask import render_template, request, redirect
+from forms import *
+from models import *
+import datetime
+from app import db
+import copy
 
 
 class HomeView(MethodView):
@@ -29,7 +34,19 @@ class PostCreateView(MethodView):
     """create post for admin"""
 
     def get(self):
-        return render_template("post_create_view.html")
+        form = CreatePostForm()
+        return render_template("post_create_view.html", form=form)
+
+    def post(self):
+        form = CreatePostForm(data=request.form)
+        data = copy.deepcopy(form.data)
+        if form.validate():
+            data.pop("csrf_token")
+            post = Post(**data)
+            db.session.add(post)
+            db.session.commit()
+            return redirect("/admin/post/new")
+        return render_template("post_create_view.html", form=form)
 
 
 class PostListView(MethodView):

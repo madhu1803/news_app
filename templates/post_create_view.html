@@ -1,5 +1,15 @@
 {% extends 'layouts/base.html' %}
 
 {% block main_content %}
-<h1>admin create view</h1>
+<form method="POST">
+    {{form.hidden_tag()}}
+    {{form.title}}
+    <br>
+    {{form.subtitle}}
+    <br>
+    {{form.content}}
+    <br>
+    <input type="submit">
+
+</form>
 {% endblock %}

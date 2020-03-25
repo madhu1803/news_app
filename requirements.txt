@@ -2,3 +2,4 @@ WTForms
 flask
 flask_sqlalchemy
 black
+flask_wtf
