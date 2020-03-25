@@ -1,0 +1,4 @@
+WTForms
+flask
+flask_sqlalchemy
+black
