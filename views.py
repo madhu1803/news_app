@@ -63,18 +63,20 @@ class PostEditView(MethodView):
 
     def get(self, post_id):
         post = Post.query.filter_by(id=post_id).one()
-        form = CreatePostForm(post=post)
+        form = CreatePostForm(data=post.__dict__)
         return render_template("post_edit_view.html", form=form)
 
-    def post(self):
+    def post(self, post_id):
+        post = Post.query.filter_by(id=post_id).one()
         form = CreatePostForm(data=request.form)
         data = copy.deepcopy(form.data)
         if form.validate():
             data.pop("csrf_token")
-            post = Post(**data)
-            db.session.add(post)
+            post.title = data["title"]
+            post.subtitle = data["subtitle"]
+            post.content = data["content"]
             db.session.commit()
-            return redirect("/admin/post/new")
+            return redirect("/admin/post/all")
 
 
 class PostDeleteView(MethodView):
