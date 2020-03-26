@@ -1,5 +1,11 @@
 {% extends 'layouts/base.html' %}
 
 {% block main_content %}
-<h1>Sign up route</h1>
+<form method="POST">
+    {{form.hidden_tag()}}
+    email: {{form.email}}
+    name: {{form.name}}
+    password: {{form.password}}
+    <input type="submit">
+</form>
 {% endblock %}

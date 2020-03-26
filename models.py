@@ -2,9 +2,10 @@
 
 from app import db
 import datetime
+from flask_login import UserMixin
 
 
-class Admin(db.Model):
+class Admin(UserMixin, db.Model):
     """Admin model"""
 
     id = db.Column(db.Integer, primary_key=True)
